@@ -1,8 +1,8 @@
 ## Lookup data from region and VPC
-data "aws_ami" "vSocket" {
+data "aws_ami" "appConnector" {
   most_recent = true
-  name_regex  = "VSOCKET_AWS"
-  owners      = ["aws-marketplace"]
+  name_regex  = var.ami_regex
+  owners      = [var.ami_owner]
 }
 
 data "aws_availability_zones" "available" {

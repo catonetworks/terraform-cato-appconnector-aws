@@ -1,54 +1,30 @@
-## vSocket Module Varibables
-variable "app_conn_description" {
+variable "app_connector_name" {
   type        = string
-  description = "App Connector description"
+  description = "Name of the App Connector"
+  default     = "app-connector"
 }
 
-variable "app_conn_name" {
+# AppConnector VM Settings
+variable "instance_type" {
+  description = "The instance type of the appConnector"
   type        = string
-  description = "Your Cato App Connector Name Here"
+  default     = "c5.xlarge"
+  validation {
+    condition     = contains(["d2.xlarge", "c3.xlarge", "t3.large", "t3.xlarge", "c4.xlarge", "c5.xlarge", "c5d.xlarge", "c5n.xlarge"], var.instance_type)
+    error_message = "The instance_type variable must be one of 'd2.xlarge','c3.xlarge','t3.large','t3.xlarge','c4.xlarge','c5.xlarge','c5d.xlarge','c5n.xlarge'."
+  }
 }
 
-variable "app_conn_group_name" {
+variable "ami_regex" {
+  description = "AMI regex to lookup the appConnector image in AWS Marketplace."
   type        = string
-  description = "Your Cato App Connector Group Name Here"
+  default     = "APP_CONNECTOR_AWS"
 }
 
-variable "preferred_pop_location_automatic" {
-  description = "Automatic preferred pop location selection"
-  type        = bool
-  default     = true
-}
-
-variable "preferred_pop_location_preferred_only" {
-  description = "Automatic preferred pop location selection to use preferred locations only"
-  type        = bool
-  default     = true
-}
-
-variable "preferred_pop_location_primary" {
-  description = "Preferred pop location - primary"
+variable "ami_owner" {
+  description = "AMI owner to lookup the appConnector image in AWS Marketplace."
   type        = string
-  default     = null
-}
-
-variable "preferred_pop_location_secondary" {
-  description = "Preferred pop location - secondary"
-  type        = string
-  default     = null
-}
-
-
-## Virtual Socket Variables
-variable "vpc_id" {
-  description = "VPC ID"
-  type        = string
-}
-
-variable "connection_type" {
-  description = "Model of Cato vsocket"
-  type        = string
-  default     = "SOCKET_AWS1500"
+  default     = "aws-marketplace"
 }
 
 variable "ebs_disk_size" {
@@ -63,20 +39,10 @@ variable "ebs_disk_type" {
   default     = "gp3"
 }
 
-variable "instance_type" {
-  description = "The instance type of the vSocket"
+variable "ssh_key_pair_name" {
+  description = "Name of an existing Key Pair for SSH access to the AppConnector instance"
   type        = string
-  default     = "c5.xlarge"
-  validation {
-    condition     = contains(["d2.xlarge", "c3.xlarge", "t3.large", "t3.xlarge", "c4.xlarge", "c5.xlarge", "c5d.xlarge", "c5n.xlarge"], var.instance_type)
-    error_message = "The instance_type variable must be one of 'd2.xlarge','c3.xlarge','t3.large','t3.xlarge','c4.xlarge','c5.xlarge','c5d.xlarge','c5n.xlarge'."
-  }
-}
-
-variable "key_pair" {
-  description = "Name of an existing Key Pair for AWS encryption"
-  type        = string
-  default     = "your-key-pair-name-here"
+  default     = null
 }
 
 variable "mgmt_eni_id" {
@@ -94,57 +60,69 @@ variable "lan_eni_id" {
   type        = string
 }
 
-variable "lan_local_ip" {
-  description = "Choose an IP Address within the LAN Subnet. You CANNOT use the first four assignable IP addresses within the subnet as it's reserved for the AWS virtual router interface used as the default route for private resources to gain access to WAN and internet. The accepted input format is X.X.X.X"
-  type        = string
-}
-
 variable "tags" {
   description = "Tags to be appended to AWS resources"
   type        = map(string)
   default     = {}
 }
 
-variable "app_conn_location" {
-  description = "App Connector location which is used by the Cato Socket to connect to the closest Cato PoP. If not specified, the location will be derived from the Azure region dynamicaly."
-  type = object({
-    city_name    = string
-    country_code = string
-    state_code   = string
-    timezone     = string
-  })
-  default = {
-    city_name    = null
-    country_code = null
-    state_code   = null ## Optional - for countries with states
-    timezone     = null
-  }
+## AppConnector resource settings in the Cato Management Application 
+variable "app_connector_description" {
+  description = "AppConnector description"
+  type        = string
+  default     = null
 }
-
-variable "region" {
-  description = "AWS Region"
+variable "app_connector_group" {
+  description = "AppConnector group name"
   type        = string
 }
 
-variable "routed_networks" {
-  description = <<EOF
-  A map of routed networks to be accessed behind the vSocket App Connector.
-  The key is the network name. The value is an object with the following attributes:
-  - subnet (string, required): The CIDR range of the network.
-  - interface_index (string, optional): The App Connector interface the network is connected to. Defaults to "LAN1".
-  EOF
-  type = map(object({
-    subnet          = string
-    interface_index = optional(string, "LAN1")
-  }))
-  default = {}
+variable "app_connector_address" {
+  description = "AppConnector address (street)"
+  type        = string
+  default     = null
 }
 
-variable "subnet_range_lan" {
+variable "app_connector_city" {
+  description = "AppConnector city name (in the given country)"
   type        = string
-  description = <<EOT
-    Choose a range within the VPC to use as the Private/LAN subnet. This subnet will host the target LAN interface of the vSocket so resources in the VPC (or AWS Region) can route to the Cato Cloud.
-    The minimum subnet length to support High Availability is /29.
-    The accepted input format is Standard CIDR Notation, e.g. X.X.X.X/X
-	EOT
+}
+
+variable "app_connector_country_code" {
+  description = "AppConnector country code"
+  type        = string
+}
+
+variable "app_connector_state_code" {
+  description = "AppConnector state code (required for the USA)"
+  type        = string
+}
+
+variable "app_connector_timezone" {
+  description = "AppConnector timezone"
+  type        = string
+}
+
+variable "app_connector_primary_pop" {
+  description = "Primary POP location (state) for the AppConnector"
+  type        = string
+  default     = null
+}
+
+variable "app_connector_secondary_pop" {
+  description = "Secondary POP location (state) for the AppConnector"
+  type        = string
+  default     = null
+}
+
+variable "app_connector_pop_location_automatic" {
+  description = "Whether the POP location for the AppConnector should be automatically selected"
+  type        = bool
+  default     = true
+}
+
+variable "app_connector_pop_location_preferred_only" {
+  description = "Whether to only use the preferred POP location for the AppConnector"
+  type        = bool
+  default     = false
 }
