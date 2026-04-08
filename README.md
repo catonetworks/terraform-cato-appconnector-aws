@@ -2,6 +2,8 @@
 
 Terraform module which creates an AWS App Connector in the Cato Management Application (CMA), and deploys a virtual app connector ec2 instance in AWS used to connect private applications over the Cato network.
 
+- *Note: This feature is currently in Early Availability (EA) and has been rolled out to a limited set of customer accounts for testing and validation purposes.*
+
 ## Usage
 <details>
 <summary>Configure the providers</summary>
