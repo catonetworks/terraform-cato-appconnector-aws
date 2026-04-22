@@ -218,17 +218,17 @@ Apache 2 Licensed. See [LICENSE](https://github.com/catonetworks/terraform-cato-
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.98.00 |
-| <a name="requirement_cato"></a> [cato](#requirement\_cato) | >= 0.0.38 |
+| <a name="requirement_cato"></a> [cato](#requirement\_cato) | >= 0.0.70 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.98.00 |
-| <a name="provider_cato"></a> [cato](#provider\_cato) | >= 0.0.38 |
+| <a name="provider_cato"></a> [cato](#provider\_cato) | >= 0.0.70 |
 
 ## Modules
 
@@ -237,7 +237,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_instance.app_connector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_network_interface_attachment.mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface_attachment) | resource |
 | [aws_network_interface_attachment.wan](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface_attachment) | resource |
@@ -248,7 +248,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_ami_owner"></a> [ami\_owner](#input\_ami\_owner) | AMI owner to lookup the appConnector image in AWS Marketplace. | `string` | `"aws-marketplace"` | no |
 | <a name="input_ami_regex"></a> [ami\_regex](#input\_ami\_regex) | AMI regex to lookup the appConnector image in AWS Marketplace. | `string` | `"APP_CONNECTOR_AWS"` | no |
 | <a name="input_app_connector_address"></a> [app\_connector\_address](#input\_app\_connector\_address) | AppConnector address (street) | `string` | `null` | no |
@@ -275,7 +275,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_app_connector_description"></a> [app\_connector\_description](#output\_app\_connector\_description) | The description of the Cato App Connector |
 | <a name="output_app_connector_group_name"></a> [app\_connector\_group\_name](#output\_app\_connector\_group\_name) | The group name of the Cato App Connector |
 | <a name="output_app_connector_id"></a> [app\_connector\_id](#output\_app\_connector\_id) | The ID of the Cato App Connector |
@@ -288,3 +288,4 @@ No modules.
 | <a name="output_instance_private_ip"></a> [instance\_private\_ip](#output\_instance\_private\_ip) | The private IP address of the App Connector EC2 instance |
 | <a name="output_instance_public_ip"></a> [instance\_public\_ip](#output\_instance\_public\_ip) | The public IP address of the App Connector EC2 instance |
 | <a name="output_instance_state"></a> [instance\_state](#output\_instance\_state) | The state of the App Connector EC2 instance |
+<!-- END_TF_DOCS -->
