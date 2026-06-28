@@ -190,11 +190,7 @@ module "app_conn" {
   app_connector_name          = "appcon-site1"
   app_connector_description   = "make site1 app accessible"
   app_connector_group         = "site1"
-  app_connector_address       = "123 Main St"
-  app_connector_city          = "San Francisco"
-  app_connector_country_code  = "US"
-  app_connector_state_code    = "US-CA"
-  app_connector_timezone      = "America/Los_Angeles"
+  region                      = "us-east-1"
   app_connector_primary_pop   = "New York_Sta"
   app_connector_secondary_pop = "Chicago Sta"
   
@@ -218,7 +214,7 @@ Apache 2 Licensed. See [LICENSE](https://github.com/catonetworks/terraform-cato-
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.98.00 |
 | <a name="requirement_cato"></a> [cato](#requirement\_cato) | >= 0.0.70 |
@@ -226,7 +222,7 @@ Apache 2 Licensed. See [LICENSE](https://github.com/catonetworks/terraform-cato-
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.98.00 |
 | <a name="provider_cato"></a> [cato](#provider\_cato) | >= 0.0.70 |
 
@@ -237,23 +233,21 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [aws_instance.app_connector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
 | [aws_network_interface_attachment.mgmt](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface_attachment) | resource |
 | [aws_network_interface_attachment.wan](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_interface_attachment) | resource |
 | [cato_app_connector.this](https://registry.terraform.io/providers/catonetworks/cato/latest/docs/resources/app_connector) | resource |
 | [aws_ami.appConnector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
+| [cato_siteLocation.site_location](https://registry.terraform.io/providers/catonetworks/cato/latest/docs/data-sources/siteLocation) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_ami_owner"></a> [ami\_owner](#input\_ami\_owner) | AMI owner to lookup the appConnector image in AWS Marketplace. | `string` | `"aws-marketplace"` | no |
 | <a name="input_ami_regex"></a> [ami\_regex](#input\_ami\_regex) | AMI regex to lookup the appConnector image in AWS Marketplace. | `string` | `"APP_CONNECTOR_AWS"` | no |
-| <a name="input_app_connector_address"></a> [app\_connector\_address](#input\_app\_connector\_address) | AppConnector address (street) | `string` | `null` | no |
-| <a name="input_app_connector_city"></a> [app\_connector\_city](#input\_app\_connector\_city) | AppConnector city name (in the given country) | `string` | n/a | yes |
-| <a name="input_app_connector_country_code"></a> [app\_connector\_country\_code](#input\_app\_connector\_country\_code) | AppConnector country code | `string` | n/a | yes |
 | <a name="input_app_connector_description"></a> [app\_connector\_description](#input\_app\_connector\_description) | AppConnector description | `string` | `null` | no |
 | <a name="input_app_connector_group"></a> [app\_connector\_group](#input\_app\_connector\_group) | AppConnector group name | `string` | n/a | yes |
 | <a name="input_app_connector_name"></a> [app\_connector\_name](#input\_app\_connector\_name) | Name of the App Connector | `string` | `"app-connector"` | no |
@@ -261,13 +255,13 @@ No modules.
 | <a name="input_app_connector_pop_location_preferred_only"></a> [app\_connector\_pop\_location\_preferred\_only](#input\_app\_connector\_pop\_location\_preferred\_only) | Whether to only use the preferred POP location for the AppConnector | `bool` | `false` | no |
 | <a name="input_app_connector_primary_pop"></a> [app\_connector\_primary\_pop](#input\_app\_connector\_primary\_pop) | Primary POP location (state) for the AppConnector | `string` | `null` | no |
 | <a name="input_app_connector_secondary_pop"></a> [app\_connector\_secondary\_pop](#input\_app\_connector\_secondary\_pop) | Secondary POP location (state) for the AppConnector | `string` | `null` | no |
-| <a name="input_app_connector_state_code"></a> [app\_connector\_state\_code](#input\_app\_connector\_state\_code) | AppConnector state code (required for the USA) | `string` | n/a | yes |
-| <a name="input_app_connector_timezone"></a> [app\_connector\_timezone](#input\_app\_connector\_timezone) | AppConnector timezone | `string` | n/a | yes |
 | <a name="input_ebs_disk_size"></a> [ebs\_disk\_size](#input\_ebs\_disk\_size) | Size of disk | `number` | `32` | no |
 | <a name="input_ebs_disk_type"></a> [ebs\_disk\_type](#input\_ebs\_disk\_type) | Size of disk | `string` | `"gp3"` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type of the appConnector | `string` | `"c5.xlarge"` | no |
 | <a name="input_lan_eni_id"></a> [lan\_eni\_id](#input\_lan\_eni\_id) | LAN Elastic Network Interface ID, network interface connected to a private subnet for local VPC resources to connect to for access to internet and WAN access through the Cato socket. Example: eni-abcde12345abcde12345 | `string` | n/a | yes |
 | <a name="input_mgmt_eni_id"></a> [mgmt\_eni\_id](#input\_mgmt\_eni\_id) | Managent Elastic Network Interface ID, network interface connected public to a subnet with routable access to the internet to access the internet and the Cato SASE cloud platform. Example: eni-abcde12345abcde12345 | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | AWS Region in Which this is being deployed | `string` | n/a | yes |
+| <a name="input_site_location"></a> [site\_location](#input\_site\_location) | Site location which is used by the Cato Socket to connect to the closest Cato PoP. If not specified, the location will be derived from the Azure region dynamicaly. | <pre>object({<br/>    city_name    = string<br/>    country_code = string<br/>    state_code   = string<br/>    timezone     = string<br/>  })</pre> | <pre>{<br/>  "city_name": null,<br/>  "country_code": null,<br/>  "state_code": null,<br/>  "timezone": null<br/>}</pre> | no |
 | <a name="input_ssh_key_pair_name"></a> [ssh\_key\_pair\_name](#input\_ssh\_key\_pair\_name) | Name of an existing Key Pair for SSH access to the AppConnector instance | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be appended to AWS resources | `map(string)` | `{}` | no |
 | <a name="input_wan_eni_id"></a> [wan\_eni\_id](#input\_wan\_eni\_id) | WAN Elastic Network Interface ID, network interface connected to a public subnet with routable access to the internet to access the internet and the Cato SASE cloud platform. Example: eni-abcde12345abcde12345 | `string` | n/a | yes |
@@ -275,7 +269,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_app_connector_description"></a> [app\_connector\_description](#output\_app\_connector\_description) | The description of the Cato App Connector |
 | <a name="output_app_connector_group_name"></a> [app\_connector\_group\_name](#output\_app\_connector\_group\_name) | The group name of the Cato App Connector |
 | <a name="output_app_connector_id"></a> [app\_connector\_id](#output\_app\_connector\_id) | The ID of the Cato App Connector |
@@ -288,4 +282,5 @@ No modules.
 | <a name="output_instance_private_ip"></a> [instance\_private\_ip](#output\_instance\_private\_ip) | The private IP address of the App Connector EC2 instance |
 | <a name="output_instance_public_ip"></a> [instance\_public\_ip](#output\_instance\_public\_ip) | The public IP address of the App Connector EC2 instance |
 | <a name="output_instance_state"></a> [instance\_state](#output\_instance\_state) | The state of the App Connector EC2 instance |
+| <a name="output_site_location"></a> [site\_location](#output\_site\_location) | n/a |
 <!-- END_TF_DOCS -->

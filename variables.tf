@@ -1,3 +1,8 @@
+variable "region" {
+  description = "AWS Region in Which this is being deployed"
+  type        = string
+}
+
 variable "app_connector_name" {
   type        = string
   description = "Name of the App Connector"
@@ -77,32 +82,6 @@ variable "app_connector_group" {
   type        = string
 }
 
-variable "app_connector_address" {
-  description = "AppConnector address (street)"
-  type        = string
-  default     = null
-}
-
-variable "app_connector_city" {
-  description = "AppConnector city name (in the given country)"
-  type        = string
-}
-
-variable "app_connector_country_code" {
-  description = "AppConnector country code"
-  type        = string
-}
-
-variable "app_connector_state_code" {
-  description = "AppConnector state code (required for the USA)"
-  type        = string
-}
-
-variable "app_connector_timezone" {
-  description = "AppConnector timezone"
-  type        = string
-}
-
 variable "app_connector_primary_pop" {
   description = "Primary POP location (state) for the AppConnector"
   type        = string
@@ -125,4 +104,20 @@ variable "app_connector_pop_location_preferred_only" {
   description = "Whether to only use the preferred POP location for the AppConnector"
   type        = bool
   default     = false
+}
+
+variable "site_location" {
+  description = "Site location which is used by the Cato Socket to connect to the closest Cato PoP. If not specified, the location will be derived from the Azure region dynamicaly."
+  type = object({
+    city_name    = string
+    country_code = string
+    state_code   = string
+    timezone     = string
+  })
+  default = {
+    city_name    = null
+    country_code = null
+    state_code   = null ## Optional - for countries with states
+    timezone     = null
+  }
 }
