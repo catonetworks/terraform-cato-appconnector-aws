@@ -32,10 +32,11 @@ resource "aws_network_interface_attachment" "wan" {
 
 # AppConnector resource in the Cato Management Application
 resource "cato_app_connector" "this" {
-  name        = var.app_connector_name
-  description = var.app_connector_description
-  group_name  = var.app_connector_group
-  location    = local.cur_site_location
+  name                        = var.app_connector_name
+  description                 = var.app_connector_description
+  group_name                  = var.app_connector_group
+  location                    = local.cur_site_location
+  pooled_bandwidth_allocation = var.app_connector_bw_allocation
   preferred_pop_location = {
     automatic      = var.app_connector_pop_location_automatic
     preferred_only = var.app_connector_pop_location_preferred_only
