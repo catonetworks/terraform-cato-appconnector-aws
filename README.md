@@ -248,6 +248,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_ami_owner"></a> [ami\_owner](#input\_ami\_owner) | AMI owner to lookup the appConnector image in AWS Marketplace. | `string` | `"aws-marketplace"` | no |
 | <a name="input_ami_regex"></a> [ami\_regex](#input\_ami\_regex) | AMI regex to lookup the appConnector image in AWS Marketplace. | `string` | `"APP_CONNECTOR_AWS"` | no |
+| <a name="input_app_connector_bw_allocation"></a> [app\_connector\_bw\_allocation](#input\_app\_connector\_bw\_allocation) | Pooled bandwidth license allocations | <pre>list(object({<br/>    license_id = string<br/>    bandwidth  = number<br/>  }))</pre> | `null` | no |
 | <a name="input_app_connector_description"></a> [app\_connector\_description](#input\_app\_connector\_description) | AppConnector description | `string` | `null` | no |
 | <a name="input_app_connector_group"></a> [app\_connector\_group](#input\_app\_connector\_group) | AppConnector group name | `string` | n/a | yes |
 | <a name="input_app_connector_name"></a> [app\_connector\_name](#input\_app\_connector\_name) | Name of the App Connector | `string` | `"app-connector"` | no |
